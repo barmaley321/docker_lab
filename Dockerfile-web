@@ -1,0 +1,26 @@
+FROM centos:7
+
+
+MAINTAINER barmaley321 <lkjhlkjh.kjhgjhgkj@yandex.ru>
+
+RUN yum -y install ca-certificates
+RUN yum -y install epel-release
+RUN yum -y install nginx
+RUN yum -y install php-fpm php-common
+RUN yum -y install php-cli php-pear php-pdo php-mysqlnd php-pgsql php-gd php-mbstring php-mcrypt php-xml
+
+
+
+ADD nginx-web.conf /etc/nginx/nginx.conf
+ADD nginx-web.sh /etc/init.d/nginx.sh
+RUN ["chmod", "+x", "/etc/init.d/nginx.sh"]
+ADD php-fpm-web.sh /etc/init.d/php-fpm.sh
+RUN ["chmod", "+x", "/etc/init.d/php-fpm.sh"]
+#COPY index.php /usr/share/nginx/html
+COPY php-fpm-web.conf /etc/php-fpm.d/www.conf
+ADD startup-web.sh /startup.sh
+RUN ["chmod", "+x", "/startup.sh"]
+ENTRYPOINT ["/bin/bash","/startup.sh"]
+EXPOSE 80
+#CMD /usr/sbin/nginx -g "daemon off;"
+

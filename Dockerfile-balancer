@@ -1,0 +1,24 @@
+FROM centos:7
+
+
+MAINTAINER barmaley321 <lkjhlkjh.kjhgjhgkj@yandex.ru>
+
+RUN yum -y install epel-release
+RUN yum -y install nginx
+
+ADD balancer.conf /etc/nginx/conf.d/balancer.conf
+ADD nginx-balancer.conf /etc/nginx/nginx.conf
+
+ADD nginx-balancer.sh /etc/init.d/nginx.sh
+
+COPY startup-balancer.sh /startup.sh
+
+RUN ["chmod", "+x", "/etc/init.d/nginx.sh"]
+RUN ["chmod", "+x", "/startup.sh"]
+
+ENTRYPOINT ["/bin/bash","/startup.sh"]
+
+EXPOSE 80
+
+CMD /usr/sbin/nginx -g "daemon off;"
+
