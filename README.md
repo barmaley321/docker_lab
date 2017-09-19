@@ -1,6 +1,6 @@
 1) Clone it somewhere
 
-    $ git clone git://github.com/barmaley321/docker_lab
+    $ git clone https://github.com/barmaley321/docker_lab.git
 
 2) Build/Run:
 
